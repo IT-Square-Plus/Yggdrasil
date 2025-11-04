@@ -1,0 +1,56 @@
+name: yggdrasil
+
+services:
+  yggdrasil:
+    image: yggdrasil:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: yggdrasil
+
+    ports:
+      - "${MCP_SERVER_PORT:-8080}:8080"
+
+    environment:
+      # Chroma Cloud - REQUIRED
+      CHROMA_API_KEY: ${CHROMA_API_KEY:?error}
+      CHROMA_TENANT: ${CHROMA_TENANT:?error}
+      CHROMA_DATABASE: ${CHROMA_DATABASE:?error}
+      CHROMA_COLLECTION: ${CHROMA_COLLECTION:-default_memories}
+
+      # MCP Server Configuration
+      MCP_SERVER_HOST: ${MCP_SERVER_HOST:-0.0.0.0}
+      MCP_SERVER_PORT: ${MCP_SERVER_PORT:-8080}
+      TRANSPORT: ${TRANSPORT:-http}
+
+      # Logging
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+
+    # Readiness-based healthcheck - matches Dockerfile configuration
+    # Uses /ready endpoint which checks ONNX model readiness
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/ready"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 120s  # Grace period for ONNX model loading (~60-90s)
+
+    # Context7 Best Practice: Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 512M
+        reservations:
+          cpus: "0.5"
+          memory: 256M
+
+    restart: unless-stopped
+
+    networks:
+      - yggdrasil
+
+networks:
+  yggdrasil:
+    driver: bridge

@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "Yggdrasil": {
+      "type": "http",
+      "url": "http://localhost:8080/mcp-your_project_name",
+      "metadata": {
+        "description": "Yggdrasil MCP Memory Server"
+      }
+    }
+  }
+}

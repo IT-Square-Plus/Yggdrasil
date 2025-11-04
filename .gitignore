@@ -1,0 +1,12 @@
+# Environment variables
+.env
+
+# IDE
+.vscode/
+.DS_Store
+
+# MCP & Claude Code
+# Each dev has their own .mcp.json (use .mcp.json.example as template)
+.mcp.json
+.mcp.local.json
+.claude/settings.local.json
