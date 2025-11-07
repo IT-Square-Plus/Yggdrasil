@@ -29,7 +29,11 @@ File: `/path/to/project-enigma/.mcp.json`
 {
   "mcpServers": {
     "Yggdrasil": {
-      "url": "http://localhost:8080/mcp-enigma"
+      "type": "http",
+      "url": "http://localhost:8080/mcp-enigma",
+      "metadata": {
+        "description": "Yggdrasil MCP Memory Server"
+      }
     }
   }
 }
@@ -43,7 +47,11 @@ File: `/path/to/project-alpha/.mcp.json`
 {
   "mcpServers": {
     "Yggdrasil": {
-      "url": "http://localhost:8080/mcp-alpha"
+      "type": "http",
+      "url": "http://localhost:8080/mcp-alpha",
+      "metadata": {
+        "description": "Yggdrasil MCP Memory Server"
+      }
     }
   }
 }
@@ -57,7 +65,11 @@ File: `/path/to/yggdrasil/.mcp.json`
 {
   "mcpServers": {
     "Yggdrasil": {
-      "url": "http://localhost:8080/mcp-yggdrasil"
+      "type": "http",
+      "url": "http://localhost:8080/mcp-yggdrasil",
+      "metadata": {
+        "description": "Yggdrasil MCP Memory Server"
+      }
     }
   }
 }

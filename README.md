@@ -21,6 +21,7 @@ A modern Model Context Protocol (MCP) server that provides persistent semantic m
      - [Get Chroma Cloud Credentials](#1-get-chroma-cloud-credentials)
      - [Configure Environment](#2-configure-environment)
      - [Run with Docker](#3-run-with-docker)
+     - [Configure Claude Code](#4-configure-claude-code)
 
 4. [ToDo](#todo)
 5. [Extras](#extras)
@@ -59,7 +60,7 @@ A modern Model Context Protocol (MCP) server that provides persistent semantic m
 ### Project Structure
 
 ```
-project-directory/
+Yggdrasil/
 ├── docs/                       # Documentation
 ├── [deployment files]          # docker-compose.yml, Dockerfile, pyproject.toml
 ├── .env.example                # Configuration template
@@ -98,10 +99,10 @@ project-directory/
 
 ```bash
 # Clone this repository
-git clone https://github.com/IT-Square-Plus/yggdrasil.git
+git clone https://github.com/IT-Square-Plus/Yggdrasil.git
 
 # Navigate to project directory
-cd yggdrasil
+cd Yggdrasil
 
 # Copy environment template
 cp .env.example .env
@@ -135,7 +136,32 @@ curl http://localhost:8080/ready
 # If you see JSON response, MCP server is running and ONNX model loaded!
 ```
 
-**Note:** First startup downloads ONNX model<sup>[2](#footnote-onnx-model)</sup> (~79MB, ~20 seconds) from Hugging Face and caches it locally.
+**Note:** First startup downloads ONNX model<sup>[2](#footnote-onnx-model)</sup> (~80MB, ~20 seconds) from Hugging Face and caches it locally.
+
+### 4. Configure Claude Code
+
+Create a `.mcp.json` file in your project root:
+
+```json
+{
+  "mcpServers": {
+    "Yggdrasil": {
+      "type": "http",
+      "url": "http://localhost:8080/mcp-your_project_name",
+      "metadata": {
+        "description": "Yggdrasil MCP Memory Server"
+      }
+    }
+  }
+}
+```
+
+**Important:**
+- Replace `your_project_name` with your actual project name (e.g., `mcp-enigma`, `mcp-myapp`)
+- The `"type": "http"` field is **required** - without it Claude Code won't connect!
+- Each project can have its own `.mcp.json` with a unique URL suffix for isolated memory
+
+For multi-project setup details, see: [`docs/PATH_BASED_ROUTING.md`](docs/PATH_BASED_ROUTING.md)
 
 ---
 
